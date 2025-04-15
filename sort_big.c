@@ -6,28 +6,36 @@
 /*   By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 12:00:00 by kizuna            #+#    #+#             */
-/*   Updated: 2025/04/15 18:10:00 by kizuna           ###   ########.fr       */
+/*   Updated: 2025/04/15 18:27:03 by kizuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/* Process one chunk for large stacks */
+/* Process one chunk for large stacks with presorting */
 void	process_large_chunk(t_stack *stack_a, t_stack *stack_b,
 								int i, int chunk_size)
 {
 	int	j;
 	int	size;
+	int	quarter;
 
 	j = 0;
 	size = stack_a->size;
-	while (j < size)
+	quarter = chunk_size / 4;
+	while (j < size && !is_sorted(stack_a))
 	{
 		if (stack_a->top->value < (i + 1) * chunk_size)
 		{
 			pb(stack_a, stack_b);
-			if (stack_b->top->value < i * chunk_size)
-				rb(stack_b, 1);
+			if (stack_b->size > 1)
+			{
+				if (stack_b->top->value < i * chunk_size + quarter)
+					rb(stack_b, 1);
+				else if (stack_b->top->value < i * chunk_size + 2 * quarter
+					&& stack_b->size > 2)
+					rb(stack_b, 1);
+			}
 		}
 		else
 			ra(stack_a, 1);
@@ -35,7 +43,7 @@ void	process_large_chunk(t_stack *stack_a, t_stack *stack_b,
 	}
 }
 
-/* Advanced sorting algorithm for very large stacks (500+) */
+/* Optimized large sorting with dynamic chunk count */
 void	optimized_large_sort(t_stack *stack_a, t_stack *stack_b)
 {
 	int	size;
@@ -45,16 +53,21 @@ void	optimized_large_sort(t_stack *stack_a, t_stack *stack_b)
 
 	normalize_stack(stack_a);
 	size = stack_a->size;
-	chunk_count = 11;
-	chunk_size = size / chunk_count;
+	if (size <= 500)
+		chunk_count = 11;
+	else
+		chunk_count = 13 + (size / 100);
+	chunk_size = size / chunk_count + (size % chunk_count != 0);
 	i = 0;
-	while (i < chunk_count - 1)
+	while (i < chunk_count - 1 && !is_sorted(stack_a))
 	{
 		process_large_chunk(stack_a, stack_b, i, chunk_size);
 		i++;
 	}
-	while (stack_a->size > 0)
-		pb(stack_a, stack_b);
-	while (stack_b->size > 0)
-		pa(stack_a, stack_b);
+	if (!is_sorted(stack_a))
+	{
+		while (stack_a->size > 0)
+			pb(stack_a, stack_b);
+		push_max_to_a(stack_a, stack_b);
+	}
 }
