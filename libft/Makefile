@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/01/25 16:01:19 by kizuna            #+#    #+#              #
-#    Updated: 2025/04/15 20:39:00 by kizuna           ###   ########.fr        #
+#    Created: 2023/01/25 16:01:19 by kizuna            #+#    #+#              #
+#    Updated: 2025/04/16 00:25:12 by kizuna           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = libft.a
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -I.
+CFLAGS = -Wall -Wextra -Werror -I. -Isrc/gnl -Isrc/printf -Isrc/printf/include
 
 SRCS_DIR = src/
 FT_IS_DIR = $(SRCS_DIR)ft_is/
@@ -73,6 +73,7 @@ PRINTF_SRCS = $(PRINTF_DIR)ft_printf_utils.c \
 		$(PRINTF_DIR)ft_print_unsigned_long_utils.c \
 		$(PRINTF_DIR)ft_printf.c \
 		$(PRINTF_DIR)ft_printf_flag.c \
+		$(PRINTF_DIR)ft_printf_flag_utils.c \
 		$(PRINTF_DIR)ft_print_s_null.c \
 		$(PRINTF_DIR)ft_print_unsigned.c \
 		$(PRINTF_DIR)ft_print_unsigned_flag.c \
@@ -94,30 +95,30 @@ BONUS = $(FT_LST_DIR)ft_lstnew_bonus.c \
 		$(FT_LST_DIR)ft_lstiter_bonus.c \
 		$(FT_LST_DIR)ft_lstmap_bonus.c
 
+# ヘッダーファイルの依存関係
+INCLUDES = -I. -Isrc/gnl -Isrc/printf
+
 OBJS = $(SRCS:.c=.o)
 PRINTF_OBJS = $(PRINTF_SRCS:.c=.o)
 BONUS_OBJS = $(BONUS:.c=.o)
 
+ALL_SRCS = $(SRCS) $(PRINTF_SRCS) $(BONUS)
+ALL_OBJS = $(ALL_SRCS:.c=.o)
+
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-printf: $(OBJS) $(PRINTF_OBJS)
-	ar rcs $(NAME) $(OBJS) $(PRINTF_OBJS)
-
-bonus: $(OBJS) $(BONUS_OBJS)
-	ar rcs $(NAME) $(OBJS) $(BONUS_OBJS)
-
-full: $(OBJS) $(BONUS_OBJS) $(PRINTF_OBJS)
-	ar rcs $(NAME) $(OBJS) $(BONUS_OBJS) $(PRINTF_OBJS)
+$(NAME): $(ALL_OBJS)
+	ar rcs $(NAME) $(ALL_OBJS)
 
 clean:
-	rm -f $(OBJS) $(BONUS_OBJS) $(PRINTF_OBJS)
+	rm -f $(ALL_OBJS)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus printf full
+.PHONY: all clean fclean re
