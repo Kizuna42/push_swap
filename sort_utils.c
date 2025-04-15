@@ -6,7 +6,7 @@
 /*   By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 12:00:00 by kizuna            #+#    #+#             */
-/*   Updated: 2025/04/15 17:51:32 by kizuna           ###   ########.fr       */
+/*   Updated: 2025/04/15 19:03:51 by kizuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	sort_stack(t_stack *stack_a, t_stack *stack_b)
 		sort_three(stack_a);
 	else if (stack_a->size <= 5)
 		sort_small(stack_a, stack_b);
+	else if (stack_a->size <= 250)
+		perform_radix_sort(stack_a, stack_b, stack_a->size);
 	else
 		sort_large(stack_a, stack_b);
 }

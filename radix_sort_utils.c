@@ -6,48 +6,31 @@
 /*   By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 12:00:00 by kizuna            #+#    #+#             */
-/*   Updated: 2025/04/15 18:29:39 by kizuna           ###   ########.fr       */
+/*   Updated: 2025/04/15 19:03:22 by kizuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/* Check for partial sorting during bit processing */
-static int	check_partial_sorting(int last_val, int num, int *sorted_count)
-{
-	if (last_val != -1 && num > last_val)
-		(*sorted_count)++;
-	else
-		*sorted_count = 0;
-	return (num);
-}
-
-/* Process one bit of optimized radix sort */
+/* Process one bit of radix sort - optimized implementation */
 void	process_bit_lsd(t_stack *stack_a, t_stack *stack_b,
 							int bit, int size)
 {
-	int	j;
+	int	i;
 	int	num;
-	int	last_val;
-	int	sorted_count;
+	int	mask;
 
-	j = 0;
-	sorted_count = 0;
-	last_val = -1;
-	while (j < size && !is_sorted(stack_a))
+	i = 0;
+	mask = 1 << bit;
+	while (i < size)
 	{
 		num = stack_a->top->value;
-		last_val = check_partial_sorting(last_val, num, &sorted_count);
-		if ((num >> bit) & 1)
-			ra(stack_a, 1);
-		else
+		if ((num & mask) == 0)
 			pb(stack_a, stack_b);
-		j++;
-		if (sorted_count >= size / 3 && is_sorted(stack_a))
-			break ;
+		else
+			ra(stack_a, 1);
+		i++;
 	}
-	if (is_sorted(stack_a) && stack_b->size == 0)
-		return ;
 	while (stack_b->size > 0)
 		pa(stack_a, stack_b);
 }
@@ -86,27 +69,46 @@ void	sort_small_optimized(t_stack *stack_a, t_stack *stack_b)
 static int	calculate_max_bits(int size)
 {
 	int	max_bits;
-	int	max_num;
 
 	max_bits = 0;
-	max_num = size - 1;
-	while (max_num >> max_bits)
+	while ((size - 1) >> max_bits)
 		max_bits++;
 	return (max_bits);
 }
 
-/* Perform radix sort with early termination and optimizations */
+/* Check if stack is already sorted */
+static int	check_sorted(t_stack *stack)
+{
+	t_node	*current;
+
+	if (!stack || !stack->top || stack->size <= 1)
+		return (1);
+	current = stack->top;
+	while (current && current->next)
+	{
+		if (current->value > current->next->value)
+			return (0);
+		current = current->next;
+	}
+	return (1);
+}
+
+/* Perform radix sort with early termination and bit-mask optimization */
 void	perform_radix_sort(t_stack *stack_a, t_stack *stack_b, int size)
 {
 	int	max_bits;
 	int	i;
 
+	if (is_sorted(stack_a))
+		return ;
 	normalize_stack(stack_a);
+	if (check_sorted(stack_a))
+		return ;
 	max_bits = calculate_max_bits(size);
 	i = 0;
-	while (i < max_bits && !is_sorted(stack_a))
+	while (i < max_bits)
 	{
-		process_bit_lsd(stack_a, stack_b, i, stack_a->size);
+		process_bit_lsd(stack_a, stack_b, i, size);
 		if (is_sorted(stack_a))
 			break ;
 		i++;
