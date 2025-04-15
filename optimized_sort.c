@@ -6,130 +6,121 @@
 /*   By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 12:00:00 by kizuna            #+#    #+#             */
-/*   Updated: 2025/04/15 19:04:43 by kizuna           ###   ########.fr       */
+/*   Updated: 2025/04/15 19:28:22 by kizuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/* Push chunks to stack_b based on dynamic value ranges */
-void	push_chunks(t_stack *stack_a, t_stack *stack_b, int chunks,
-						int chunk_size)
-{
-	int	i;
-	int	j;
-	int	half_size;
-
-	i = 0;
-	half_size = chunk_size / 2;
-	while (i < chunks && !is_sorted(stack_a))
-	{
-		j = 0;
-		while (j < chunk_size && !is_sorted(stack_a))
-		{
-			if (stack_a->top->value < (i + 1) * chunk_size)
-			{
-				pb(stack_a, stack_b);
-				if (stack_b->top->value < i * chunk_size + half_size
-					&& stack_b->size > 1)
-					rb(stack_b, 1);
-				j++;
-			}
-			else
-				ra(stack_a, 1);
-		}
-		i++;
-	}
-}
-
-/* Extract maximum value from stack_b with optimized search */
-int	find_max_position(t_stack *stack_b)
+/* Find the position of the maximum value in the stack */
+int	find_max_position(t_stack *stack)
 {
 	t_node	*current;
+	int		max;
+	int		pos;
 	int		max_pos;
-	int		max_val;
-	int		i;
 
-	if (!stack_b || !stack_b->top)
+	if (!stack || !stack->top)
 		return (-1);
+	current = stack->top;
+	max = current->value;
+	pos = 0;
 	max_pos = 0;
-	max_val = stack_b->top->value;
-	current = stack_b->top->next;
-	i = 1;
 	while (current)
 	{
-		if (current->value > max_val)
+		if (current->value > max)
 		{
-			max_val = current->value;
-			max_pos = i;
+			max = current->value;
+			max_pos = pos;
 		}
 		current = current->next;
-		i++;
+		pos++;
 	}
 	return (max_pos);
 }
 
-/* Optimized push maximum value with rotation optimization */
+/* Process one chunk of numbers for optimized sorting */
+static void	process_one_chunk(t_stack *stack_a, t_stack *stack_b,
+				int current_chunk, int *pushed)
+{
+	int	j;
+	int	chunk_size;
+
+	j = 0;
+	chunk_size = current_chunk / 10 + 1;
+	while (j < stack_a->size * 2 && *pushed < current_chunk + chunk_size
+		&& stack_a->size > 0)
+	{
+		if (stack_a->top->value >= current_chunk
+			&& stack_a->top->value < current_chunk + chunk_size)
+		{
+			pb(stack_a, stack_b);
+			(*pushed)++;
+		}
+		else
+			ra(stack_a, 1);
+		j++;
+	}
+}
+
+/* Push chunks of numbers to stack_b in an optimized order */
+void	push_chunks(t_stack *stack_a, t_stack *stack_b, int chunks,
+		int chunk_size)
+{
+	int	i;
+	int	pushed;
+	int	current_chunk;
+
+	i = 0;
+	pushed = 0;
+	while (i < chunks && stack_a->size > 0)
+	{
+		current_chunk = i * chunk_size;
+		process_one_chunk(stack_a, stack_b, current_chunk, &pushed);
+		i++;
+	}
+}
+
+/* Push all maximum values from stack_b back to stack_a in descending order */
 void	push_max_to_a(t_stack *stack_a, t_stack *stack_b)
 {
-	int		max_pos;
-	int		size_b;
+	int	max_pos;
+	int	size;
 
 	while (stack_b->size > 0)
 	{
 		max_pos = find_max_position(stack_b);
-		size_b = stack_b->size;
-		if (max_pos == 0)
-			pa(stack_a, stack_b);
-		else if (max_pos <= size_b / 2)
+		size = stack_b->size;
+		if (max_pos <= size / 2)
 		{
-			while (max_pos-- > 0)
+			while (max_pos > 0)
+			{
 				rb(stack_b, 1);
-			pa(stack_a, stack_b);
+				max_pos--;
+			}
 		}
 		else
 		{
-			while (max_pos++ < size_b)
+			while (max_pos < size)
+			{
 				rrb(stack_b, 1);
-			pa(stack_a, stack_b);
+				max_pos++;
+			}
 		}
+		pa(stack_a, stack_b);
 	}
 }
 
-/* Sort medium size stacks with dynamic chunking */
-static void	sort_medium(t_stack *stack_a, t_stack *stack_b, int chunks)
-{
-	int	size;
-	int	chunk_size;
-
-	normalize_stack(stack_a);
-	size = stack_a->size;
-	chunk_size = size / chunks + (size % chunks != 0);
-	push_chunks(stack_a, stack_b, chunks, chunk_size);
-	if (!is_sorted(stack_a))
-	{
-		while (stack_a->size > 0)
-			pb(stack_a, stack_b);
-		push_max_to_a(stack_a, stack_b);
-	}
-}
-
-/* Advanced adaptive sort algorithm selector */
+/* Main function to sort large stacks of numbers (>250) */
 void	sort_large(t_stack *stack_a, t_stack *stack_b)
 {
 	int	size;
 
-	if (is_sorted(stack_a))
+	if (!stack_a || !stack_b || is_sorted(stack_a))
 		return ;
+	normalize_stack(stack_a);
 	size = stack_a->size;
-	if (size <= 5)
-		sort_small(stack_a, stack_b);
-	else if (size <= 30)
-		sort_small_optimized(stack_a, stack_b);
-	else if (size <= 100)
-		sort_medium(stack_a, stack_b, 5);
-	else if (size <= 300)
-		sort_medium(stack_a, stack_b, 8);
-	else
-		optimized_large_sort(stack_a, stack_b);
+	if (size <= 0)
+		return ;
+	optimized_large_sort(stack_a, stack_b);
 }
