@@ -6,7 +6,7 @@
 /*   By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 12:00:00 by kizuna            #+#    #+#             */
-/*   Updated: 2025/04/15 17:43:27 by kizuna           ###   ########.fr       */
+/*   Updated: 2025/04/15 18:10:21 by kizuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,19 @@ void	sort_large(t_stack *stack_a, t_stack *stack_b);
 int		find_min(t_stack *stack);
 int		find_position(t_stack *stack, int value);
 void	do_radix_sort(t_stack *stack_a, t_stack *stack_b, int size, int bit);
+void	normalize_stack(t_stack *stack);
+void	process_bit_lsd(t_stack *stack_a, t_stack *stack_b, int bit, int size);
+void	sort_small_optimized(t_stack *stack_a, t_stack *stack_b);
+void	perform_radix_sort(t_stack *stack_a, t_stack *stack_b, int size);
+
+/* Optimized sort functions */
+void	push_chunks(t_stack *stack_a, t_stack *stack_b, int chunks,
+			int chunk_size);
+int		find_max_position(t_stack *stack_b);
+void	push_max_to_a(t_stack *stack_a, t_stack *stack_b);
+void	process_large_chunk(t_stack *stack_a, t_stack *stack_b,
+			int i, int chunk_size);
+void	optimized_large_sort(t_stack *stack_a, t_stack *stack_b);
 
 /* Utilities */
 int		ft_atoi(const char *str);
