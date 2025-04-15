@@ -6,7 +6,7 @@
 #    By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/01 12:00:00 by kizuna            #+#    #+#              #
-#    Updated: 2025/04/15 20:20:39 by kizuna           ###   ########.fr        #
+#    Updated: 2025/04/15 20:45:33 by kizuna           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,9 @@ UTILS_SRCS = $(UTILS_DIR)error.c \
 
 CMD_UTILS_SRCS = $(CMD_UTILS_DIR)command_utils.c \
 				$(CMD_UTILS_DIR)command_utils2.c \
-				$(CMD_UTILS_DIR)command_utils3.c
+				$(CMD_UTILS_DIR)command_utils3.c \
+				$(CMD_UTILS_DIR)command_utils4.c \
+				$(CMD_UTILS_DIR)command_utils5.c
 
 SRCS = $(MAIN_SRCS) $(OPERATIONS_SRCS) $(STACK_UTILS_SRCS) $(UTILS_SRCS) $(CMD_UTILS_SRCS)
 

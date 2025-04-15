@@ -6,7 +6,7 @@
 /*   By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 20:24:35 by kizuna            #+#    #+#             */
-/*   Updated: 2025/04/15 20:29:28 by kizuna           ###   ########.fr       */
+/*   Updated: 2025/04/15 20:43:51 by kizuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,21 @@ static int	check_overflow(long value, int sign, char next_digit)
 	if (sign < 0 && - next_value < -2147483648)
 		return (1);
 	return (0);
+}
+
+static bool	process_digits(char *str, long *value, int sign, int *num)
+{
+	while (*str)
+	{
+		if (*str < '0' || *str > '9')
+			return (false);
+		if (check_overflow(*value, sign, *str))
+			return (false);
+		*value = *value * 10 + (*str - '0');
+		str++;
+	}
+	*num = (int)(*value * sign);
+	return (true);
 }
 
 bool	push_swap_atoi(char *str, int *num)
@@ -42,15 +57,5 @@ bool	push_swap_atoi(char *str, int *num)
 	}
 	if (*str == '\0')
 		return (false);
-	while (*str)
-	{
-		if (*str < '0' || *str > '9')
-			return (false);
-		if (check_overflow(value, sign, *str))
-			return (false);
-		value = value * 10 + (*str - '0');
-		str++;
-	}
-	*num = (int)(value * sign);
-	return (true);
+	return (process_digits(str, &value, sign, num));
 }

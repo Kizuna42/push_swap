@@ -6,7 +6,7 @@
 /*   By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 12:00:00 by kizuna            #+#    #+#             */
-/*   Updated: 2025/04/15 20:40:55 by kizuna           ###   ########.fr       */
+/*   Updated: 2025/04/15 20:54:51 by kizuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ t_command	calculation_command(int a_index, int b_index, int a_len, int b_len);
 void		do_command(t_command command, t_stack *stack_a, t_stack *stack_b);
 t_command	command_init(void);
 // command utils2 functions
-void		commnad_set_rarb(t_command *command, int ra_count, int rb_count);
-void		commnad_set_rrarrb(t_command *command,
+void		command_set_rarb(t_command *command, int ra_count, int rb_count);
+void		command_set_rrarrb(t_command *command,
 				int rra_count,
 				int rrb_count);
 void		command_set_rarrb(t_command *command, int ra_count, int rb_count);
@@ -119,5 +119,10 @@ t_command	*serch_optimal_command_push_to_a(t_stack *stack_a,
 				t_stack *stack_b);
 t_command	*serch_optimal_command_push_to_b(t_stack *stack_a,
 				t_stack *stack_b);
+// command utils4 and utils5 functions
+int			calculate_min_command(int a_count, int b_count, int mode);
+int			get_min_mode(int ra_count, int rb_count);
+void		set_command_based_on_mode(t_command *command, int ra_count,
+				int rb_count, int min_mode);
 
 #endif
