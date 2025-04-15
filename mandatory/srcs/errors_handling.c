@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 00:32:34 by kizuna            #+#    #+#             */
-/*   Updated: 2025/04/16 00:43:19 by kizuna           ###   ########.fr       */
+/*   Created: 2025/04/16 01:48:00 by kizuna            #+#    #+#             */
+/*   Updated: 2025/04/16 01:48:01 by kizuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	is_duplicate_number(int argc, char **argv)
 
 	if (argc == 2)
 	{
-		if (ft_atoi(argv[0]) == 2147483647)
+		if (ft_atoi(argv[0]) == 0 && ft_strncmp(argv[0], "0", 2) != 0)
 			return (-1);
 	}
 	i = 0;
@@ -51,8 +51,8 @@ int	is_duplicate_number(int argc, char **argv)
 		j = i + 1;
 		while (j < argc - 1)
 		{
-			if (ft_atoi(argv[i]) == 2147483647 \
-				|| ft_atoi(argv[j]) == 2147483647)
+			if ((ft_atoi(argv[i]) == 0 && ft_strncmp(argv[i], "0", 2) != 0)
+				|| (ft_atoi(argv[j]) == 0 && ft_strncmp(argv[j], "0", 2) != 0))
 				return (-1);
 			if (ft_atoi(argv[i]) == ft_atoi(argv[j]))
 				return (-1);

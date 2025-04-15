@@ -6,7 +6,7 @@
 /*   By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 14:15:36 by kishino           #+#    #+#             */
-/*   Updated: 2025/04/16 00:37:12 by kizuna           ###   ########.fr       */
+/*   Updated: 2025/04/16 01:30:03 by kizuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	*ft_itoa(int n);
 char	**ft_split(char const *s, char c);
+char	**ft_split_mult(char *str, char *charset);
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
@@ -74,15 +75,9 @@ t_list	*ft_lstnew(void *content);
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 int		ft_abs(int n);
-
-/* ft_printf */
 int		ft_printf(const char *fmt, ...);
-
-// ft_put functions
 int		ft_putstr(const char *s);
 int		ft_putnstr(const char *str, long int end);
-
-// ft_str functions
 int		ft_strnchr(const char *s, int c, int start, int end);
 
 #endif

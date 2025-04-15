@@ -6,7 +6,7 @@
 #    By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/25 16:01:19 by kizuna            #+#    #+#              #
-#    Updated: 2025/04/16 00:37:12 by kizuna           ###   ########.fr        #
+#    Updated: 2025/04/16 01:05:43 by kizuna           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ SRCS = $(FT_IS_DIR)ft_isalnum.c \
 		$(FT_PUT_DIR)ft_putstr.c \
 		$(FT_PUT_DIR)ft_putnstr.c \
 		$(FT_STR_DIR)ft_split.c \
+		$(FT_STR_DIR)ft_split_mult.c \
 		$(FT_STR_DIR)ft_strchr.c \
 		$(FT_STR_DIR)ft_strdup.c \
 		$(FT_STR_DIR)ft_strjoin.c \

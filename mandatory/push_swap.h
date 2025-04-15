@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 00:31:22 by kizuna            #+#    #+#             */
-/*   Updated: 2025/04/16 00:42:40 by kizuna           ###   ########.fr       */
+/*   Created: 2025/04/16 01:48:35 by kizuna            #+#    #+#             */
+/*   Updated: 2025/04/16 01:48:37 by kizuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,5 @@ int		ft_min(int a, int b);
 int		get_best_op_index(t_elem *stack_a, t_elem *stack_b, int stack_size);
 int		is_sorted(t_elem *stack);
 int		is_median(t_elem *stack, int num);
-char	**ft_split_mult(char *str, char *delimiters);
-void	small_sort(t_elem *stack_a, t_elem *stack_b, int stack_size);
 
 #endif

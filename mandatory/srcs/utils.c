@@ -5,33 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 00:32:46 by kizuna            #+#    #+#             */
-/*   Updated: 2025/04/16 00:40:03 by kizuna           ###   ########.fr       */
+/*   Created: 2025/04/16 01:48:28 by kizuna            #+#    #+#             */
+/*   Updated: 2025/04/16 01:48:31 by kizuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
-
-char	**ft_split_mult(char *str, char *delimiters)
-{
-	char	**result;
-	char	*temp;
-	int		i;
-
-	temp = ft_strdup(str);
-	if (!temp)
-		return (NULL);
-	i = 0;
-	while (temp[i])
-	{
-		if (ft_strchr(delimiters, temp[i]))
-			temp[i] = ' ';
-		i++;
-	}
-	result = ft_split(temp, ' ');
-	free(temp);
-	return (result);
-}
 
 int	ft_min(int a, int b)
 {

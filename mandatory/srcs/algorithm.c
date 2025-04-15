@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 00:32:28 by kizuna            #+#    #+#             */
-/*   Updated: 2025/04/16 00:42:40 by kizuna           ###   ########.fr       */
+/*   Created: 2025/04/16 01:47:53 by kizuna            #+#    #+#             */
+/*   Updated: 2025/04/16 01:47:54 by kizuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	get_median(t_elem *stack)
 	return (-1);
 }
 
-void	small_sort(t_elem *stack_a, t_elem *stack_b, int stack_size)
+void	resolve_stack(t_elem *stack_a, t_elem *stack_b, int stack_size)
 {
 	int	index;
 	int	median;

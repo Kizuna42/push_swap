@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/04/16 00:31:43 by kizuna            #+#    #+#              #
-#    Updated: 2025/04/16 00:42:40 by kizuna           ###   ########.fr        #
+#    Created: 2025/04/16 00:59:41 by kizuna            #+#    #+#              #
+#    Updated: 2025/04/16 01:34:22 by kizuna           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,16 +22,25 @@ INCLUDE		=	-I.
 
 LIB			=	-L./libft -lft
 
-SRCS		=	srcs/push_swap.c						\
-				srcs/algorithm_helper.c				\
-				srcs/errors_handling.c				\
-				srcs/operations.c						\
-				srcs/utils_stack.c					\
-				srcs/algorithm.c						\
-				srcs/algorithm_optimized.c			\
-				srcs/utils.c
+SRCS		=	mandatory/srcs/push_swap.c						\
+				mandatory/srcs/errors_handling.c				\
+				mandatory/srcs/operations.c						\
+				mandatory/srcs/utils_stack.c					\
+				mandatory/srcs/algorithm.c						\
+				mandatory/srcs/algorithm_helper.c				\
+				mandatory/srcs/utils.c
+
+# SRCS_BONUS	=	bonus/srcs/checker.c							\
+# 				bonus/srcs/utils_stack.c						\
+# 				bonus/srcs/utils.c								\
+# 				bonus/srcs/errors_handling.c					\
+# 				bonus/srcs/solve_stdin.c						\
+# 				bonus/srcs/operations.c							\
+# 				bonus/srcs/operations_both.c							\
 
 OBJS		= 	${SRCS:.c=.o}
+
+# OBJS_BONUS	= 	${SRCS_BONUS:.c=.o}
 
 LIBPATH		= 	libft/
 
@@ -40,6 +49,12 @@ all:			${NAME}
 ${NAME}:		${OBJS}
 			make -C ${LIBPATH}
 			${CC} ${CFLAGS} $^ ${INCLUDE} ${LIB} -o $@
+
+# bonus:			${NAME_BONUS}
+
+# ${NAME_BONUS}:	${OBJS_BONUS}
+# 			make -C ${LIBPATH}
+# 			${CC} ${CFLAGS} $^ ${INCLUDE} ${LIB} -o ${NAME_BONUS}
 
 clean:
 			make clean -C ${LIBPATH}
