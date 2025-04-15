@@ -6,7 +6,7 @@
 /*   By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 12:00:00 by kizuna            #+#    #+#             */
-/*   Updated: 2025/04/15 18:10:21 by kizuna           ###   ########.fr       */
+/*   Updated: 2025/04/15 20:40:55 by kizuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,71 +15,109 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdbool.h>
+# include "libft/libft.h"
 
+# define RA_RB 1
+# define RRA_RRB 2
+# define RA_RRB 3
+# define RRA_RB 4
+
+typedef struct s_command
+{
+	int		all;
+	int		ra;
+	int		rra;
+	int		rb;
+	int		rrb;
+	int		rr;
+	int		rrr;
+}	t_command;
+
+// node of the stack
 typedef struct s_node
 {
-	int				value;
+	int				data;
+	int				index;
+	t_command		command;
 	struct s_node	*next;
+	struct s_node	*prev;
 }	t_node;
 
+// stack structure
 typedef struct s_stack
 {
 	t_node	*top;
-	int		size;
 }	t_stack;
-
-/* Main functions */
-int		main(int argc, char **argv);
-
-/* Stack operations */
-t_stack	*init_stack(void);
-void	free_stack(t_stack *stack);
-void	push(t_stack *stack, int value);
-int		pop(t_stack *stack);
-void	print_stack(t_stack *stack);
-
-/* Push_swap operations */
-void	sa(t_stack *stack_a, int print);
-void	sb(t_stack *stack_b, int print);
-void	ss(t_stack *stack_a, t_stack *stack_b);
-void	pa(t_stack *stack_a, t_stack *stack_b);
-void	pb(t_stack *stack_a, t_stack *stack_b);
-void	ra(t_stack *stack_a, int print);
-void	rb(t_stack *stack_b, int print);
-void	rr(t_stack *stack_a, t_stack *stack_b);
-void	rra(t_stack *stack_a, int print);
-void	rrb(t_stack *stack_b, int print);
-void	rrr(t_stack *stack_a, t_stack *stack_b);
-
-/* Sort algorithms */
-void	sort_stack(t_stack *stack_a, t_stack *stack_b);
-void	sort_three(t_stack *stack_a);
-void	sort_small(t_stack *stack_a, t_stack *stack_b);
-void	sort_large(t_stack *stack_a, t_stack *stack_b);
-
-/* Sort utils */
-int		find_min(t_stack *stack);
-int		find_position(t_stack *stack, int value);
-void	do_radix_sort(t_stack *stack_a, t_stack *stack_b, int size, int bit);
-void	normalize_stack(t_stack *stack);
-void	process_bit_lsd(t_stack *stack_a, t_stack *stack_b, int bit, int size);
-void	sort_small_optimized(t_stack *stack_a, t_stack *stack_b);
-void	perform_radix_sort(t_stack *stack_a, t_stack *stack_b, int size);
-
-/* Optimized sort functions */
-void	push_chunks(t_stack *stack_a, t_stack *stack_b, int chunks,
-			int chunk_size);
-int		find_max_position(t_stack *stack_b);
-void	push_max_to_a(t_stack *stack_a, t_stack *stack_b);
-void	process_large_chunk(t_stack *stack_a, t_stack *stack_b,
-			int i, int chunk_size);
-void	optimized_large_sort(t_stack *stack_a, t_stack *stack_b);
-
-/* Utilities */
-int		ft_atoi(const char *str);
-int		is_sorted(t_stack *stack);
-void	error_exit(void);
-int		has_duplicates(int *array, int size);
-int		is_valid_int(char *str);
+// stack management functions
+void		stack_init(t_stack *stack_a, t_stack *stack_b);
+void		stack_index_init(t_stack *stack);
+void		both_stack_index_init(t_stack *stack_a, t_stack *stack_b);
+void		free_stack(t_stack *stack);
+// stack check functions
+bool		is_empty(t_stack *stack);
+bool		is_sorted(t_stack *stack);
+// stack get information functions
+int			get_len_stack(t_stack *stack);
+int			get_max_data(t_stack *stack);
+int			get_min_data(t_stack *stack);
+int			get_index_from_data(t_stack *stack, int data);
+void		print_stack(t_stack *stack, char *name);
+// push_swap (main) fanctions
+void		push_swap(int len, t_stack *stack_a, t_stack *stack_b);
+// stack operations
+void		swap(t_stack *stack, char c);
+void		rotate(t_stack *stack, char c);
+void		reverse_rotate(t_stack *stack, char c);
+bool		push(t_stack *stack, int data);
+bool		push_to(t_stack *stack_a, t_stack *stack_b, char c);
+// command functions
+void		sa(t_stack *stack);
+void		sb(t_stack *stack);
+void		ss(t_stack *stack_a, t_stack *stack_b);
+void		ra(t_stack *stack);
+void		rb(t_stack *stack);
+void		rr(t_stack *stack_a, t_stack *stack_b);
+void		rra(t_stack *stack);
+void		rrb(t_stack *stack);
+void		rrr(t_stack *stack_a, t_stack *stack_b);
+bool		pa(t_stack *stack_a, t_stack *stack_b);
+bool		pb(t_stack *stack_a, t_stack *stack_b);
+// error functions
+void		error_print(void);
+void		error_print_exit(void);
+// utility functions
+bool		push_swap_atoi(char *str, int *num); // atoi with error check
+int			main(int argc, char **argv);
+// sort functions
+void		sort_len_3(t_stack *stack);
+bool		sort(t_stack *stack_a, t_stack *stack_b);
+void		sort_reverse(t_stack *stack);
+int			get_target_from_b(t_stack *stack_b, int data);
+int			get_target_from_a(t_stack *stack_a, int data);
+// command utils functions
+t_command	calculation_command(int a_index, int b_index, int a_len, int b_len);
+void		do_command(t_command command, t_stack *stack_a, t_stack *stack_b);
+t_command	command_init(void);
+// command utils2 functions
+void		commnad_set_rarb(t_command *command, int ra_count, int rb_count);
+void		commnad_set_rrarrb(t_command *command,
+				int rra_count,
+				int rrb_count);
+void		command_set_rarrb(t_command *command, int ra_count, int rb_count);
+void		command_set_rrarb(t_command *command, int rra_count, int rb_count);
+// command utils3 functions
+void		register_command_push_a(t_stack *stack_a,
+				t_stack *stack_b,
+				int b_data,
+				t_command *command);
+void		register_command_push_b(t_stack *stack_a,
+				t_stack *stack_b,
+				int a_data,
+				t_command *command);
+t_command	*serch_optimal_command_push_to_a(t_stack *stack_a,
+				t_stack *stack_b);
+t_command	*serch_optimal_command_push_to_b(t_stack *stack_a,
+				t_stack *stack_b);
 
 #endif
