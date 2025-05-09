@@ -6,7 +6,7 @@
 /*   By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 01:47:53 by kizuna            #+#    #+#             */
-/*   Updated: 2025/04/16 01:47:54 by kizuna           ###   ########.fr       */
+/*   Updated: 2025/05/09 19:16:26 by kizuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,14 @@ void	resolve_num(t_elem *stack_a, t_elem *stack_b, int index, int stack_size)
 	index -= r_top(stack_a, index, "rb\n", "rrb\n");
 	if (index >= stack_size - 2)
 		index = start + (index - (stack_size - 1));
-	if (get_min_stack(stack_b).num > stack_a[index].num \
-	|| get_max_stack(stack_b, -1).num < stack_a[index].num)
+	if (get_min_stack(stack_b).num > stack_a[index].num
+		|| get_max_stack(stack_b, -1).num < stack_a[index].num)
 		r_top(stack_b, get_min_stack(stack_b).index, "ra\n", "rra\n");
 	else
-		r_top(stack_b, get_min_above_tresh(stack_b, stack_a[index].num).index, \
-		"ra\n", "rra\n");
+	{
+		r_top(stack_b, get_min_above_tresh(stack_b, stack_a[index].num).index,
+			"ra\n", "rra\n");
+	}
 	push_stack(stack_a, stack_b, "pa\n");
 }
 
@@ -117,8 +119,8 @@ void	resolve_stack(t_elem *stack_a, t_elem *stack_b, int stack_size)
 	while (index < stack_size - 4)
 	{
 		push_stack(stack_a, stack_b, "pb\n");
-		if (stack_b[get_start_stack(stack_b)].num > median && \
-		get_end_stack(stack_a) - get_start_stack(stack_a) + 1 > 3)
+		if (stack_b[get_start_stack(stack_b)].num > median
+			&& get_end_stack(stack_a) - get_start_stack(stack_a) + 1 > 3)
 			shift_up(stack_b, "rb\n");
 		index++;
 	}
@@ -126,12 +128,12 @@ void	resolve_stack(t_elem *stack_a, t_elem *stack_b, int stack_size)
 	index = get_start_stack(stack_b);
 	while (index < get_end_stack(stack_b))
 	{
-		resolve_num(stack_b, stack_a, \
-		get_best_op_index(stack_b, stack_a, stack_size), stack_size);
+		resolve_num(stack_b, stack_a,
+			get_best_op_index(stack_b, stack_a, stack_size), stack_size);
 		index++;
 	}
-	r_top(stack_a, get_min_above_tresh(stack_a, stack_b[index].num).index, \
-	"ra\n", "rra\n");
+	r_top(stack_a, get_min_above_tresh(stack_a, stack_b[index].num).index,
+		"ra\n", "rra\n");
 	push_stack(stack_b, stack_a, "pa\n");
 	r_top(stack_a, get_min_stack(stack_a).index, "ra\n", "rra\n");
 }

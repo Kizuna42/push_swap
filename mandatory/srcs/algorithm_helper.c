@@ -6,7 +6,7 @@
 /*   By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 01:47:38 by kizuna            #+#    #+#             */
-/*   Updated: 2025/04/16 01:47:39 by kizuna           ###   ########.fr       */
+/*   Updated: 2025/05/09 19:08:51 by kizuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	resolve_three(t_elem *stack)
 
 	start = get_start_stack(stack);
 	end = get_end_stack(stack);
-	if (get_min_stack(stack).index == start && \
-	get_max_stack(stack, -1).index == end)
+	if (get_min_stack(stack).index == start
+		&& get_max_stack(stack, -1).index == end)
 		return ;
-	if (get_min_stack(stack).index == start && \
-	get_max_stack(stack, -1).index == end - 1)
+	if (get_min_stack(stack).index == start
+		&& get_max_stack(stack, -1).index == end - 1)
 	{
 		ft_swap(stack, "sa\n");
 		shift_up(stack, "ra\n");
@@ -66,8 +66,8 @@ int	get_op_for_gplace(t_elem *a, t_elem *b, int index)
 
 	count_op = 0;
 	count_op += get_op_for_topplace(a, index, 0);
-	if (get_min_stack(b).num > a[index].num \
-	|| get_max_stack(b, -1).num < a[index].num)
+	if (get_min_stack(b).num > a[index].num
+		|| get_max_stack(b, -1).num < a[index].num)
 		count_op += get_op_for_topplace(b, get_min_stack(b).index, 0);
 	else
 	{
@@ -89,8 +89,8 @@ int	get_coherences(t_elem *stack_a, t_elem *stack_b, int index)
 	int	min;
 
 	op_a = get_op_for_topplace(stack_a, index, 1);
-	if (get_min_stack(stack_b).num > stack_a[index].num || \
-	get_max_stack(stack_b, -1).num < stack_a[index].num)
+	if (get_min_stack(stack_b).num > stack_a[index].num
+		|| get_max_stack(stack_b, -1).num < stack_a[index].num)
 		op_b = get_op_for_topplace(stack_b, get_min_stack(stack_b).index, 1);
 	else
 	{

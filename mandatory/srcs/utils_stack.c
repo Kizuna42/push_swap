@@ -6,7 +6,7 @@
 /*   By: kizuna <kizuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 01:48:22 by kizuna            #+#    #+#             */
-/*   Updated: 2025/04/16 01:48:23 by kizuna           ###   ########.fr       */
+/*   Updated: 2025/05/09 19:16:26 by kizuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ t_elem	get_max_stack(t_elem *stack, int treshold)
 	while (start <= end)
 	{
 		if (max == -1 || ((stack[start].num > stack[max].num || \
-		stack[max].filled == -1) && (treshold == -1 || \
-		stack[start].num < treshold)))
+stack[max].filled == -1) && (treshold == -1 || \
+stack[start].num < treshold)))
 			max = stack[start].index;
 		start++;
 	}
@@ -90,7 +90,7 @@ t_elem	get_min_above_tresh(t_elem *stack, int treshold)
 	while (start <= end)
 	{
 		if (stack[start].num > treshold && \
-		(min == -1 || stack[start].num < stack[min].num))
+(min == -1 || stack[start].num < stack[min].num))
 			min = stack[start].index;
 		start++;
 	}
