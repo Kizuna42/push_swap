@@ -25,7 +25,7 @@ t_elem	*create_tab(int argc, char **argv, int boolean)
 	{
 		if (boolean == 1)
 		{
-			tab[i].num = ft_atoi(argv[i]);
+			ps_parse_int(argv[i], &tab[i].num);
 			tab[i].filled = 1;
 		}
 		else

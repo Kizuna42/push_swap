@@ -14,7 +14,7 @@
 # define PUSH_SWAP_H
 
 # include <stdlib.h>
-# include <stdio.h>
+# include <limits.h>
 # include "../libft/libft.h"
 
 typedef struct s_elem
@@ -25,6 +25,7 @@ typedef struct s_elem
 }	t_elem;
 
 int		ft_handle_errors(int argc, char **argv);
+int		ps_parse_int(const char *str, int *out);
 void	push_stack(t_elem *stack_a, t_elem *stack_b, char *str);
 void	shift_up(t_elem *stack, char *str);
 void	shift_down(t_elem *stack, char *str);

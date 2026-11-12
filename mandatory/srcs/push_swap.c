@@ -40,6 +40,12 @@ char	**split_args(int *argc, char **argv, int *tofree)
 	char	**split_args;
 
 	split_args = ft_split_mult(argv[0], " \t\n");
+	if (split_args == NULL)
+	{
+		ft_putstr_fd("Error\n", 2);
+		*argc = 1;
+		return (NULL);
+	}
 	*argc = args_len(split_args) + 1;
 	*tofree = 1;
 	return (split_args);
@@ -87,7 +93,9 @@ int	main(int argc, char **argv)
 	}
 	stack_a = create_tab(argc, split_list, 1);
 	stack_b = create_tab(argc, split_list, 0);
-	if (is_sorted(stack_a) == -1)
+	if (stack_a == NULL || stack_b == NULL)
+		ft_putstr_fd("Error\n", 2);
+	else if (is_sorted(stack_a) == -1)
 		choose_resolve(stack_a, stack_b, argc);
 	ft_free(stack_a, stack_b, split_list, tofree);
 	return (0);
