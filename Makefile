@@ -34,15 +34,17 @@ LIBPATH		= 	libft/
 
 LIBFT		=	${LIBPATH}libft.a
 
-HEADER		=	mandatory/push_swap.h
+HEADER		=	mandatory/push_swap.h ${LIBPATH}libft.h
 
 all:			${NAME}
 
 ${NAME}:		${OBJS} ${LIBFT}
 			${CC} ${CFLAGS} ${OBJS} ${INCLUDE} ${LIB} -o $@
 
-${LIBFT}:
+${LIBFT}:		FORCE
 			make -C ${LIBPATH}
+
+FORCE:
 
 ${OBJS}:		${HEADER}
 
@@ -59,4 +61,4 @@ re:				fclean all
 test:			all
 			python3 tests/test_push_swap.py ./${NAME}
 
-.PHONY:			all clean fclean re test
+.PHONY:			all clean fclean re test FORCE
