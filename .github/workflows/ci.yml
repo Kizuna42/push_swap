@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install norminette and valgrind
+        run: |
+          pip install norminette==3.3.60
+          sudo apt-get update
+          sudo apt-get install -y valgrind
+      - name: Norminette
+        run: norminette mandatory libft
+      - name: Build
+        run: make
+      - name: Test
+        run: make test
+      - name: Memory check (valgrind)
+        run: |
+          valgrind --leak-check=full --errors-for-leak-kinds=all --error-exitcode=1 ./push_swap 5 3 9 1 7 2 > /dev/null
+          valgrind --leak-check=full --errors-for-leak-kinds=all --error-exitcode=1 ./push_swap "5 3 9 1 7 2" > /dev/null
+          valgrind --leak-check=full --errors-for-leak-kinds=all --error-exitcode=1 ./push_swap 1 2 a 2> /dev/null
+          valgrind --leak-check=full --errors-for-leak-kinds=all --error-exitcode=1 ./push_swap $(seq 1 100 | shuf) > /dev/null
