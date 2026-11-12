@@ -32,11 +32,19 @@ OBJS		= 	${SRCS:.c=.o}
 
 LIBPATH		= 	libft/
 
+LIBFT		=	${LIBPATH}libft.a
+
+HEADER		=	mandatory/push_swap.h
+
 all:			${NAME}
 
-${NAME}:		${OBJS}
+${NAME}:		${OBJS} ${LIBFT}
+			${CC} ${CFLAGS} ${OBJS} ${INCLUDE} ${LIB} -o $@
+
+${LIBFT}:
 			make -C ${LIBPATH}
-			${CC} ${CFLAGS} $^ ${INCLUDE} ${LIB} -o $@
+
+${OBJS}:		${HEADER}
 
 clean:
 			make clean -C ${LIBPATH}
@@ -44,8 +52,11 @@ clean:
 
 fclean:			clean
 			make fclean -C ${LIBPATH}
-			rm -f ${NAME} ${NAME_TEST}
+			rm -f ${NAME}
 
 re:				fclean all
 
-.PHONY:			all clean fclean re
+test:			all
+			python3 tests/test_push_swap.py ./${NAME}
+
+.PHONY:			all clean fclean re test
