@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
 static int	ft_is_a_sep(char c, char *sep)
 {
@@ -73,7 +73,7 @@ static void	*ft_free(char **strs, int k)
 		free(strs[i]);
 		i++;
 	}
-	free(strs[i]);
+	free(strs);
 	return (NULL);
 }
 
@@ -87,20 +87,20 @@ char	**ft_split_mult(char *str, char *charset)
 
 	num_sep = ft_count_malloc(str, charset);
 	strs = malloc(sizeof(char *) * (num_sep + 1));
+	if (strs == NULL)
+		return (NULL);
 	i = 0;
 	k = -1;
 	while (++k < num_sep)
 	{
-		j = -1;
 		while (ft_is_a_sep(str[i], charset) == 1 && str[i])
 			i++;
-		strs[k] = malloc(sizeof(char) * (ft_usep(str + i, charset) + 1));
+		j = ft_usep(str + i, charset);
+		strs[k] = malloc(sizeof(char) * (j + 1));
 		if (strs[k] == NULL)
 			return (ft_free(strs, k));
-		while (str[i] && ft_is_a_sep(str[i], charset) == 0 && ++j > -10)
-			strs[k][j] = str[i++];
-		strs[k][j + 1] = '\0';
-		i++;
+		ft_strlcpy(strs[k], str + i, j + 1);
+		i += j + 1;
 	}
 	strs[k] = 0;
 	return (strs);
