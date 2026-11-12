@@ -109,11 +109,13 @@ def main():
                 failures += 1
                 print(f"FAIL permutation {perm}: {info}")
 
-    for perm in itertools.permutations(range(5)):
-        ok, info = check_sort(binary, list(perm))
-        if not ok:
-            failures += 1
-            print(f"FAIL permutation {perm}: {info}")
+    # 4・5 要素は全順列を確認し、課題要件の 12 手以内であること
+    for n in (4, 5):
+        for perm in itertools.permutations(range(n)):
+            ok, info = check_sort(binary, list(perm))
+            if not ok or info > 12:
+                failures += 1
+                print(f"FAIL permutation {perm}: {info}")
 
     rng = random.Random(42)
     for size, rounds in ((6, 20), (10, 20), (100, 10), (500, 3)):
